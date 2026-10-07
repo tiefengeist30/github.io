@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İstanbul Okulu | Vizyon</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',    // Slate 900
+                            light: '#f8fafc',   // Slate 50
+                            gold: '#d97706',    // Amber 600
+                            goldlight: '#fbbf24'// Amber 400
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations & Base Styles */
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 5px;
+        }
+
+        /* Reveal Animation on Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered delays for grid items */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Parallax Setup */
+        .hero-bg {
+            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1)), url('https://img.magnific.com/premium-vector/istanbul-skyline-silhouette-night-vector-isolated-flat-illustration_1310786-14444.jpg?semt=ais_hybrid&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Custom Hover Card */
+        .subject-card {
+            transition: all 0.4s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(217, 119, 6, 0.3), 0 10px 10px -5px rgba(217, 119, 6, 0.1);
+            border-color: #d97706;
+        }
+        .subject-card:hover .icon-box {
+            background-color: #d97706;
+            color: #0f172a;
+        }
+        .icon-box {
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-brand-light bg-brand-dark selection:bg-brand-gold selection:text-white">
+
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-brand-gold z-50 transition-all duration-150 ease-out" style="width: 0%;"></div>
+
+    <nav class="fixed w-full z-40 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <!-- Modern Minimal Logo Representation -->
+                    <div class="w-10 h-10 rounded-full border-2 border-brand-gold flex items-center justify-center">
+                        <i class="fa-solid fa-book-open text-brand-gold"></i>
+                    </div>
+                    <span class="font-serif font-bold text-2xl tracking-wider text-white">İSTANBUL <span class="text-brand-gold">OKULU</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#tamamlananlar" class="hover:text-brand-gold transition-colors px-3 py-2 rounded-md text-sm font-medium">Külliyat</a>
+                        <a href="#siradaki-ders" class="hover:text-brand-gold transition-colors px-3 py-2 rounded-md text-sm font-medium">Sıradaki Ders</a>
+                        <a href="#vizyon" class="hover:text-brand-gold transition-colors px-3 py-2 rounded-md text-sm font-medium">Vizyonumuz</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="relative min-h-screen flex items-center justify-center hero-bg pt-20">
+        <div class="absolute inset-0 bg-brand-dark/40"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <div class="reveal">
+                <div class="w-24 h-24 mx-auto mb-8 rounded-full border-2 border-brand-gold flex items-center justify-center bg-brand-dark/50 backdrop-blur-sm floating">
+                    <i class="fa-solid fa-mosque text-4xl text-brand-gold"></i>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tight">
+                    İSTANBUL <span class="text-brand-gold">OKULU</span>
+                </h1>
+                <div class="h-1 w-24 bg-brand-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-xl md:text-3xl font-light tracking-wide text-gray-300 italic">
+                    "Birlikte Öğreniyor, Birlikte Yükseliyoruz"
+                </p>
+                <div class="mt-12">
+                    <a href="#tamamlananlar" class="inline-block px-8 py-4 border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-dark font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
+                        Keşfetmeye Başla
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#tamamlananlar" class="text-brand-gold opacity-70 hover:opacity-100 transition-opacity">
+                <i class="fa-solid fa-chevron-down text-3xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="tamamlananlar" class="py-24 bg-brand-dark relative">
+        <!-- Decorative background element -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-bold tracking-widest text-brand-gold uppercase mb-3">Geçmişten Günümüze</h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Şimdiye Kadar Tamamladık</h3>
+                <div class="h-0.5 w-16 bg-brand-gold mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Subject Cards Array -->
+                <script>
+                    const subjects = [
+                        { name: 'Felsefe', icon: 'fa-brain', delay: 'delay-1' },
+                        { name: 'Mantık', icon: 'fa-project-diagram', delay: 'delay-2' },
+                        { name: 'Sosyoloji', icon: 'fa-users', delay: 'delay-3' },
+                        { name: 'Psikoloji', icon: 'fa-head-side-virus', delay: 'delay-1' },
+                        { name: 'Antropoloji', icon: 'fa-globe-africa', delay: 'delay-2' },
+                        { name: 'İktisat', icon: 'fa-chart-line', delay: 'delay-3' },
+                        { name: 'Edebiyat', icon: 'fa-feather-alt', delay: 'delay-1' },
+                        { name: 'Tasavvuf ve Tarikatlar', icon: 'fa-praying-hands', delay: 'delay-2' },
+                        { name: 'Siyaset Bilimi', icon: 'fa-landmark', delay: 'delay-3' }
+                    ];
+
+                    subjects.forEach(sub => {
+                        document.write(`
+                            <div class="subject-card border border-gray-700 bg-gray-800/50 rounded-2xl p-6 backdrop-blur-sm reveal ${sub.delay}">
+                                <div class="flex items-center space-x-4">
+                                    <div class="icon-box w-14 h-14 rounded-full bg-gray-700 flex items-center justify-center text-brand-gold text-xl">
+                                        <i class="fa-solid ${sub.icon}"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xl font-semibold text-white font-serif">${sub.name}</h4>
+                                        <p class="text-sm text-gray-400 mt-1">Tamamlandı</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <section id="siradaki-ders" class="py-24 bg-gray-900 relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                
+                <!-- Image Side -->
+                <div class="w-full lg:w-1/2 reveal">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl group">
+                        <div class="absolute inset-0 bg-brand-gold/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                        <img 
+                            src="https://www.bayrakmuzayede.com/uploads/900/product/2020/03/22/omer-dincer-kilic-imzali-gravur_1584873878.jpg" 
+                            alt="Klasik Gravür" 
+                            class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 filter sepia-[0.3]"
+                            onerror="this.src='https://placehold.co/600x800/2a3f54/d97706?text=Gravur+Gorseli'"
+                        >
+                        <!-- Decorative border overlay -->
+                        <div class="absolute inset-4 border-2 border-brand-gold/50 rounded-xl z-20 pointer-events-none"></div>
+                    </div>
+                </div>
+
+                <!-- Content Side -->
+                <div class="w-full lg:w-1/2 reveal delay-2">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold mb-6">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-gold"></span>
+                        </span>
+                        <span class="text-sm font-bold tracking-wide uppercase">Sıradaki Ders</span>
+                    </div>
+                    
+                    <h2 class="text-5xl lg:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+                        Yönetim <br> <span class="text-brand-gold italic">Bilimleri</span>
+                    </h2>
+                    
+                    <div class="space-y-6 mt-10">
+                        <div class="flex items-center gap-4 bg-gray-800/80 p-4 rounded-xl border border-gray-700">
+                            <div class="w-12 h-12 rounded-full bg-brand-dark flex items-center justify-center text-brand-gold">
+                                <i class="fa-solid fa-user-tie text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Konuşmacı / Eğitmen</p>
+                                <p class="text-xl font-semibold text-white">Ömer Dinçer</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-gray-800/80 p-4 rounded-xl border border-gray-700">
+                            <div class="w-12 h-12 rounded-full bg-brand-dark flex items-center justify-center text-brand-gold">
+                                <i class="fa-regular fa-calendar-check text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Tarih</p>
+                                <p class="text-xl font-semibold text-white">10 Ekim Cumartesi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <button class="px-8 py-4 bg-brand-gold text-brand-dark font-bold rounded-xl hover:bg-brand-goldlight transition-all shadow-[0_0_20px_rgba(217,119,6,0.4)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)] flex items-center gap-3">
+                            <span>Hatırlatıcı Oluştur</span>
+                            <i class="fa-regular fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="vizyon" class="relative py-32 bg-fixed bg-center bg-cover" style="background-image: url('https://jedunn.com/wp-content/uploads/2022/12/robertson-life-sciences-center-exterior.jpg');">
+        <!-- Overlay for contrast -->
+        <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm"></div>
+        
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="reveal">
+                <i class="fa-solid fa-eye text-5xl text-brand-gold mb-6 floating"></i>
+                <h2 class="text-4xl md:text-6xl font-serif font-bold text-white mb-8">GELECEK VİZYONUMUZ</h2>
+                
+                <div class="glass p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden group">
+                    <!-- Shine effect on hover -->
+                    <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-10 group-hover:animate-[shine_1s] pointer-events-none"></div>
+
+                    <h3 class="text-3xl md:text-4xl font-serif font-bold text-brand-gold mb-6">
+                        İstanbul Okulu <br> Yaşam Bilimleri Enstitüsü
+                    </h3>
+                    
+                    <div class="w-24 h-1 bg-gray-600 mx-auto mb-8 rounded">
+                        <div class="w-12 h-1 bg-brand-gold rounded"></div>
+                    </div>
+
+                    <p class="text-xl md:text-2xl leading-relaxed text-gray-200 font-light italic">
+                        "Eğitimi kurumsallaştırmak, bilimi ve insanlığı bir araya getiren bağımsız bir akademik merkeze dönüşmek."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            @keyframes shine {
+                100% { left: 125%; }
+            }
+        </style>
+    </section>
+
+    <footer class="bg-black py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-brand-gold"></i>
+                <span class="font-serif font-bold text-xl text-white">İSTANBUL <span class="text-brand-gold">OKULU</span></span>
+            </div>
+            
+            <p class="text-gray-500 text-sm">
+                &copy; 2026 İstanbul Okulu. Birlikte Öğreniyor, Birlikte Yükseliyoruz.
+            </p>
+            
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Scroll Progress Bar
+            const progressBar = document.getElementById('progress-bar');
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // 2. Navbar Background Change on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-lg', 'bg-brand-dark/95');
+                    navbar.classList.remove('glass');
+                } else {
+                    navbar.classList.remove('shadow-lg', 'bg-brand-dark/95');
+                    navbar.classList.add('glass');
+                }
+            });
+
+            // 3. Reveal Elements on Scroll (Intersection Observer)
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
